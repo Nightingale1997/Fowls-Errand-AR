@@ -89,7 +89,7 @@ public class behaveChicken : MonoBehaviour
                 nearest.pose.position+nearest.pose.up*0.1f,
                 nearest.pose.rotation);
 
-            chicken.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+            chicken.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
             chicken.transform.eulerAngles = new Vector3(0,180,0);
             chicken.tag = "SpawnedObject";
             logger.Log("Spawned at" + chicken.transform.position.x +
