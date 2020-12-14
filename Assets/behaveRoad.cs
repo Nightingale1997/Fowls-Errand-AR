@@ -10,7 +10,7 @@ public class behaveRoad : MonoBehaviour
     private ARRaycastManager rays;
     public GameObject roadPrefab;
     public Camera myCam;
-    public float cooldown, cdCount;
+    //private float cooldown, cdCount;
     private ARAnchorManager anchorCheck;
     private ARPlaneManager planeCheck;
     private Animator chickenAnimate;
@@ -20,7 +20,7 @@ public class behaveRoad : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        cooldown = 2;
+        //cooldown = 2;
         myCam = this.gameObject.transform.Find
             ("AR Camera").gameObject.GetComponent<Camera>();
         rays = this.gameObject.GetComponent<ARRaycastManager>();
@@ -33,13 +33,14 @@ public class behaveRoad : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        cdCount += Time.deltaTime;
+        //cdCount += Time.deltaTime;
 
         if (Input.touchCount == 1 && roadOn ==false)
         {
+            logger.Log("spawnin road...");
             SpawnRoad();
-            cdCount = 0;
-            roadOn = true;
+            //cdCount = 0;
+            
             //fusRohDah();
         }
         else
@@ -94,6 +95,7 @@ public class behaveRoad : MonoBehaviour
                 logger.Log("Added another anchor " + nearest);
             }
             road.transform.parent = anchorPoint.transform;
+            roadOn = true;
         }
 
     }

@@ -7,7 +7,7 @@ public class MoveCar : MonoBehaviour
     private Rigidbody chickenThrown;
     
     //CAR SPEED !!!!
-    public float carSpeed = 0f;
+    public float carSpeed = 2f;
     //float mass = 10;
     public AudioSource impactCar;
     // Start is called before the first frame update
@@ -26,7 +26,7 @@ public class MoveCar : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
 
-        Debug.Log("test");
+        //Debug.Log("test");
         if (other.gameObject.tag == "Despawner")
         {
             Destroy(gameObject);

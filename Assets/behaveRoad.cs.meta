@@ -3,7 +3,10 @@ guid: 49e264d200dc3a246822cf813bf00912
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - roadPrefab: {fileID: 8240867836600993125, guid: 6196e36b3229aa743ae288239db335da,
+      type: 3}
+  - myCam: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
