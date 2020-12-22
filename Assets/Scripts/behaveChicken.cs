@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class behaveChicken : MonoBehaviour
 {
@@ -12,8 +13,12 @@ public class behaveChicken : MonoBehaviour
     private Animator chickenAnimate;
     bool chickenFound = false;
     private static ILogger logger = Debug.unityLogger;
+    //UI
+    public GameObject txtOnScreen;
+    //public GameObject btnPushChicken;
 
-    // Start is called before the first frame update
+    private Text txtUI;
+    //private Button pushChicken; 
     void Start()
     {
         cooldown = 2;
@@ -21,6 +26,11 @@ public class behaveChicken : MonoBehaviour
             ("AR Camera").gameObject.GetComponent<Camera>();
         rays = this.gameObject.GetComponent<ARRaycastManager>();
 
+
+        //set UI 
+        txtUI = txtOnScreen.GetComponent<Text>();
+        //pushChicken = btnPushChicken.GetComponent<Button>();
+        //pushChicken.onClick.AddListener(behaveRoad.);
     }
 
     GameObject[] chickSearch;
@@ -52,7 +62,7 @@ public class behaveChicken : MonoBehaviour
                 //Spawn();
                 logger.Log("Check on Chicken...");                
                 findChicken();
-                cdCount = -3;
+                cdCount = -1;
             }
             else
             {
@@ -73,20 +83,51 @@ public class behaveChicken : MonoBehaviour
     {
         logger.Log("raycast for the running animation");
         //bool hitChicken;
-        Vector3 screenPoint = myCam.WorldToViewportPoint(new Vector3(0.5f, 0.5f));
-        RaycastHit[] myHits;
+        Vector3 screenPoint = myCam.WorldToViewportPoint(new Vector3(0.5f, 0.5f, 0f));
+        //Vector3 screenPoint = Camera.main.WorldToViewportPoint(new Vector3(0.5f, 0.5f, 0f));
+
+        //RaycastHit[] myHits;
+
+        RaycastHit hit2;
         Ray r;
         r = myCam.ScreenPointToRay(screenPoint);
-        myHits = Physics.RaycastAll(r);
 
+        //STILL CASTS THE RAY IN DIRECTION OF THE USER
+        if (Physics.Raycast(r,out hit2))
+        {
+            if (hit2.transform.gameObject.tag == "SpawnedObject")
+            {
+                logger.Log("Chicken FOUND");
+                txtUI.text = "Chicken FOUND";
+                //txtGuides.SetActive(true);
+
+                chickSearch[0].GetComponent<Rigidbody>().velocity = new Vector3(0f, 1.2f, 0f); ;
+                chickenAnimate.SetBool("Run", true);
+                chickenFound = true;
+            }
+            else
+            {
+                logger.Log("only " + hit2.transform.gameObject.name);
+
+            }
+        }
+        else
+        {
+            logger.Log("No luck with Hit2");
+        }
+
+        /*
+        myHits = Physics.RaycastAll(r);
         //hitChicken = rays.Raycast(screenPoint, myHits, TrackableType.FeaturePoint);
         foreach (RaycastHit hit in myHits)
         {            
             if (hit.transform.gameObject.tag == "SpawnedObject")
             {
                 logger.Log("Chicken FOUND");
+                txtUI.text = "Chicken FOUND";
+                //txtGuides.SetActive(true);
 
-                chickSearch[0].GetComponent<Rigidbody>().velocity= new Vector3(0f, 1.5f, 0f); ;
+                chickSearch[0].GetComponent<Rigidbody>().velocity= new Vector3(0f, 1.2f, 0f); ;
                 chickenAnimate.SetBool("Run", true);
                 chickenFound = true;
             }
@@ -97,7 +138,7 @@ public class behaveChicken : MonoBehaviour
             }            
         }
         //when not looking at anything
-
+        */
     }
   
     public void fusRohDah() 
@@ -119,6 +160,7 @@ public class behaveChicken : MonoBehaviour
         }
     }
 
+  
     /*public void Spawn()
   {
       GameObject chicken;
