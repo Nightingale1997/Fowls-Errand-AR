@@ -38,7 +38,7 @@ public class MoveCar : MonoBehaviour
         if (other.gameObject.name == "Toon Chicken")
         {
             chickenThrown = other.gameObject.GetComponent<Rigidbody>();
-            chickenThrown.velocity = transform.rotation * new Vector3(5f, 5f, 5f);
+            
             impactCar.Play(0);
         }
 
