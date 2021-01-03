@@ -9,11 +9,11 @@ public class CarSpawner : MonoBehaviour
     GameObject carClone;
     public GameObject car;
     public AudioSource carSound;
-
+    private GameObject road;
     // Start is called before the first frame update
     void Start()
     {
-
+        road = GameObject.FindWithTag("Road");
 
     }
 
@@ -24,7 +24,8 @@ public class CarSpawner : MonoBehaviour
         if (Timer <= 0f)
         {
             carClone = Instantiate(car, transform.position, transform.rotation) as GameObject;
-            
+            road = GameObject.FindWithTag("Road");
+            carClone.transform.localScale = road.transform.localScale*100;
             carClone.transform.parent = this.transform;
             if (direction == 1)
             {
