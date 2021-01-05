@@ -14,7 +14,8 @@ public class MoveChicken : MonoBehaviour
     private Rigidbody chickenBody;
     private GameObject road;
     public float timer = 2f;
-
+    public Camera myCam;
+    private ARRaycastManager rays;
     //UI
     //public GameObject btnPushChicken;
     private Button pushChicken;
@@ -36,9 +37,35 @@ public class MoveChicken : MonoBehaviour
         pushChicken = GameObject.Find("btnPushChicken").GetComponent<Button>(); //btnPushChicken.GetComponent<Button>();
         //pushChicken.onClick.AddListener(pushPressed);
         txtUI = GameObject.Find("txtOnScreen").GetComponent<Text>();
+        logger.Log(" Cross-UI Successful");
+
         
-    }    
-      
+        
+    }
+
+
+    public Vector3 calculateRayDir()
+    {
+        Vector3 screenPoint = new Vector3(0.5f, 0.5f, 0f);
+        RaycastHit hit2;
+        Ray r;
+        logger.Log("R ray succ");
+
+        myCam = GameObject.Find("AR Camera").gameObject.GetComponent<Camera>();
+        rays = GameObject.FindObjectOfType<ARRaycastManager>();
+
+        r = myCam.ViewportPointToRay(screenPoint);
+        logger.Log("R Cam succ");
+        logger.Log("R: " + r);
+
+        Physics.Raycast(r, out hit2);
+        
+        if (hit2.transform.gameObject)
+            return r.direction;        
+        else
+            return new Vector3(0f,0f,0f);
+        
+    }
     void Update()
     {
         
@@ -60,17 +87,17 @@ public class MoveChicken : MonoBehaviour
             logger.Log("before crossing");
 
             //fusRohDah();        
-            GameObject chickenFinder = GameObject.Find("AR Session Origin");
-            behaveChicken chickenCam = chickenFinder.GetComponent<behaveChicken>();
-            
-            
-            Vector3 chickenMovement = new Vector3(0, 0, 2 ) * chickenSpeed * Time.deltaTime;
 
-            transform.Translate(chickenMovement, Space.Self);
-            transform.Rotate(Quaternion.LookRotation(chickenCam.directionRay).eulerAngles);
-            logger.Log("dir RAY: " + chickenCam.directionRay.normalized + " Angle: " + Quaternion.LookRotation(chickenCam.directionRay).eulerAngles);
+            //Vector3 chickenMovement = new Vector3(0, 0, 2 ) * chickenSpeed * Time.deltaTime;
+            //transform.Translate(chickenMovement, Space.Self);
+            Vector3 direction = calculateRayDir();
+            
+            logger.Log("RB: "+ transform.GetComponent<Rigidbody>());
+            transform.GetComponent<Rigidbody>().AddForce(direction * 100);            
+            transform.Rotate(Quaternion.LookRotation(direction).eulerAngles);
+            //              logger.Log("dir RAY: " + calculateRayDir().normalized + " Angle: " + Quaternion.LookRotation(calculateRayDir()).eulerAngles);
+
             //transform.Rotate(new Vector3(0, Mathf.Sin(Time.time * 5) * 0.2f, 0));            
-
 
 
             //chickenBody.AddForce(chickenCam.directionRay * 10);

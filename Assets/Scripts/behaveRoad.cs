@@ -92,7 +92,7 @@ public class behaveRoad : MonoBehaviour
 
                 road.transform.localScale = new Vector3(0.15f, 0.15f, 0.15f);
                 road.transform.eulerAngles = new Vector3(0, 180, 0);
-                road.tag = "SpawnedObject";
+        //        road.tag = "SpawnedObject";
                 logger.Log("Spawned at" + road.transform.position.x +
                     ", " + road.transform.position.y + ", " +
                     road.transform.position.z);
