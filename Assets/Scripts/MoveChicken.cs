@@ -1,43 +1,82 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.XR.ARFoundation;
+using UnityEngine.XR.ARSubsystems;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MoveChicken : MonoBehaviour
 {
-    public float chickenSpeed = 3f;
+    public float chickenSpeed = 0.0005f;
     public bool active = false;
     public bool old = false;
     private Animator ChickenRun;
     private Rigidbody chickenBody;
     private GameObject road;
     public float timer = 2f;
+
+    //UI
+    //public GameObject btnPushChicken;
+    private Button pushChicken;
+    //public GameObject txtOnScreen;
+    private Text txtUI;
+
+    //GameObject[] chickSearch;
+
+    private static ILogger logger = Debug.unityLogger;
     // Start is called before the first frame update
     void Start()
     {
         road = GameObject.FindWithTag("Road");
         ChickenRun = gameObject.GetComponent<Animator>();
         chickenBody = gameObject.GetComponent<Rigidbody>();
-    }
 
-    // Update is called once per frame
+        
+        logger.Log("Cross Start");
+        pushChicken = GameObject.Find("btnPushChicken").GetComponent<Button>(); //btnPushChicken.GetComponent<Button>();
+        //pushChicken.onClick.AddListener(pushPressed);
+        txtUI = GameObject.Find("txtOnScreen").GetComponent<Text>();
+        
+    }    
+      
     void Update()
     {
-
-        if (Input.GetKey(KeyCode.R))
-        {
+        
+        
+        if (Input.touchCount == 2)
+        {            
             if (!old)
             {
+                logger.Log("about to Cross");                
                 active = true;
                 old = true;
+                txtUI.text = "TO CROSSING";
             }
         }
+        
 
         if (active)
         {
-            Vector3 chickenMovement = new Vector3(0, 0, 2) * chickenSpeed * Time.deltaTime;
+            logger.Log("before crossing");
+
+            //fusRohDah();        
+            GameObject chickenFinder = GameObject.Find("AR Session Origin");
+            behaveChicken chickenCam = chickenFinder.GetComponent<behaveChicken>();
+            
+            
+            Vector3 chickenMovement = new Vector3(0, 0, 2 ) * chickenSpeed * Time.deltaTime;
+
             transform.Translate(chickenMovement, Space.Self);
-            transform.Rotate(new Vector3(0, Mathf.Sin(Time.time * 5) * 0.2f, 0));
+            transform.Rotate(Quaternion.LookRotation(chickenCam.directionRay).eulerAngles);
+            logger.Log("dir RAY: " + chickenCam.directionRay.normalized + " Angle: " + Quaternion.LookRotation(chickenCam.directionRay).eulerAngles);
+            //transform.Rotate(new Vector3(0, Mathf.Sin(Time.time * 5) * 0.2f, 0));            
+
+
+
+            //chickenBody.AddForce(chickenCam.directionRay * 10);
+
             ChickenRun.SetBool("Walk", true);
+            logger.Log(" crossed");
         }
         else if (!active && old)
         {
@@ -45,25 +84,30 @@ public class MoveChicken : MonoBehaviour
             if (timer <= 0f)
             {
                 Destroy(transform.root.gameObject);
+                logger.Log("chicken destroyed");
             }
         }
         
     }
 
 
+
     void OnTriggerEnter(Collider other)
     {
 
-        //Debug.Log("test");
+        logger.Log("into collider");
         if (other.gameObject.tag == "Despawner")
         {
+            logger.Log("there's spawner");
             if (active)
             {
                 Destroy(gameObject);
+                //logger.Log("destroyed");
                 ChickenSpawner chickenSpawner = road.GetComponent<ChickenSpawner>();
                 chickenSpawner.expired = true;
-                chickenSpawner.score++;
-                Debug.Log(chickenSpawner.score);
+                chickenSpawner.score++;                
+                txtUI.text = "CHICKEN SCORE:" + chickenSpawner.score+"";
+                logger.Log("SCORE IS:"+ chickenSpawner.score);
             }
             
         }
@@ -102,6 +146,32 @@ public class MoveChicken : MonoBehaviour
 
         }
 
+
+
+        /*
+        public void fusRohDah()
+        {
+            RaycastHit[] myHits;
+            Ray r;
+            r = myCam.ScreenPointToRay(Input.GetTouch(0).position);
+            myHits = Physics.RaycastAll(r);
+            foreach (RaycastHit hit in myHits)
+            {
+                //logger.Log("Detected " + hit.transform.gameObject.name);
+                if (hit.transform.gameObject.tag == "SpawnedObject")
+                {
+                    logger.Log("Conjuring the FUS ROH DAH");
+                    Vector3 chickenMovement = new Vector3(0, 0, r.direction.x) * chickenSpeed * Time.deltaTime;
+                    transform.Translate(chickenMovement, Space.Self);
+                    transform.Rotate(new Vector3(0, Mathf.Sin(Time.time * 5) * 0.2f, 0));
+                    ChickenRun.SetBool("Walk", true);
+
+                    //chickSearch[0].transform.gameObject.GetComponent<Rigidbody>().AddForce(r.direction * 100);
+                    //hit.transform.gameObject.GetComponent<Rigidbody>().AddForce(r.direction*100);
+                }
+            }
+        }
+        */
 
     }
 }

@@ -25,7 +25,7 @@ public class CarSpawner : MonoBehaviour
         {
             carClone = Instantiate(car, transform.position, transform.rotation) as GameObject;
             road = GameObject.FindWithTag("Road");
-            carClone.transform.localScale = road.transform.localScale*100;
+            carClone.transform.localScale *=0.15f;
             carClone.transform.parent = this.transform;
             if (direction == 1)
             {

@@ -12,12 +12,18 @@ public class behaveChicken : MonoBehaviour
     public float cooldown, cdCount;
     private Animator chickenAnimate;
     bool chickenFound = false;
+    //OneChicken
+    private GameObject chicken;
+
     private static ILogger logger = Debug.unityLogger;
     //UI
     public GameObject txtOnScreen;
-    //public GameObject btnPushChicken;
+    public GameObject btnShowPushChicken;
 
+    //public GameObject btnPushChicken;
+    public Vector3 directionRay;
     private Text txtUI;
+
     //private Button pushChicken; 
     void Start()
     {
@@ -26,27 +32,36 @@ public class behaveChicken : MonoBehaviour
             ("AR Camera").gameObject.GetComponent<Camera>();
         rays = this.gameObject.GetComponent<ARRaycastManager>();
 
-
-        //set UI 
+         //set UI 
         txtUI = txtOnScreen.GetComponent<Text>();
+
         //pushChicken = btnPushChicken.GetComponent<Button>();
         //pushChicken.onClick.AddListener(behaveRoad.);
     }
 
-    GameObject[] chickSearch;
+    //GameObject[] chickSearch;
+    
     // Update is called once per frame
     void Update()
     {
-    
+        /*
         if (chickSearch == null || chickSearch.Length==0)
         {
             logger.Log("searching chicks");
             chickSearch = GameObject.FindGameObjectsWithTag("SpawnedObject");
+            //chickSearch = GameObject.FindWithTag("SpawnedObject");
             logger.Log("array " + chickSearch.Length);
             if (chickSearch!=null && chickSearch.Length>0)
             {
                 chickenAnimate = chickSearch[0].GetComponent<Animator>();
             }            
+        }*/
+        if (chicken==null)
+        {
+            logger.Log("no chicken");
+            chicken = GameObject.FindWithTag("SpawnedObject");
+            //chickenAnimate = chicken.GetComponent<Animator>();
+            
         }
         else
         {
@@ -54,22 +69,23 @@ public class behaveChicken : MonoBehaviour
 
             if (Input.touchCount == 1 && cdCount > cooldown)
             {
-                fusRohDah();
+                //fusRohDah();
+                
                 cdCount = 0;
             }
             if (cdCount > cooldown && chickenFound == false)
             {
-                //Spawn();
+                //Spawn();                
                 logger.Log("Check on Chicken...");                
                 findChicken();
-                cdCount = -1;
+                cdCount = -3;
             }
             else
             {
                 //logger.Log("Chicken to Idle");
-                //chickenAnimate = hit.transform.gameObject.GetComponent<Animator>();
                 chickenAnimate.SetBool("Run", false);
-                if (cdCount>15)
+                //recheck the chicken to Test
+                if (cdCount>5)
                 {
                     chickenFound = false;
                 }
@@ -81,7 +97,7 @@ public class behaveChicken : MonoBehaviour
 
     public void findChicken()
     {
-        logger.Log("raycast for the running animation");
+        logger.Log("raycasting to find chicken");
         //bool hitChicken;
         Vector3 screenPoint = myCam.WorldToViewportPoint(new Vector3(0.5f, 0.5f, 0f));
         //Vector3 screenPoint = Camera.main.WorldToViewportPoint(new Vector3(0.5f, 0.5f, 0f));
@@ -92,18 +108,35 @@ public class behaveChicken : MonoBehaviour
         Ray r;
         r = myCam.ScreenPointToRay(screenPoint);
 
-        //STILL CASTS THE RAY IN DIRECTION OF THE USER
+        //STILL CASTS THE R3AY IN DIRECTION OF THE USER
         if (Physics.Raycast(r,out hit2))
         {
             if (hit2.transform.gameObject.tag == "SpawnedObject")
-            {
-                logger.Log("Chicken FOUND");
+            {                
                 txtUI.text = "Chicken FOUND";
+                btnShowPushChicken.SetActive(true);
                 //txtGuides.SetActive(true);
+                logger.Log("Chicken about to be found 2");
+                /*
+                //GameObject chickTest = GameObject.FindWithTag("SpawnedObject");
+                chicken = hit2.transform.gameObject;
+                chicken.GetComponent<Rigidbody>().velocity = new Vector3(0f, 10.2f, 0f);
+                chickenAnimate = chicken.GetComponent<Animator>();
+                */
 
-                chickSearch[0].GetComponent<Rigidbody>().velocity = new Vector3(0f, 1.2f, 0f); ;
+                hit2.transform.gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0f, 1.2f, 0f);
+                logger.Log("Chicken about to be found 1");
+                //hit2.GetComponent<Rigidbody>().velocity = new Vector3(0f, 10.2f, 0f);
+                logger.Log("Chicken about to be found 0");
+                chickenAnimate = hit2.transform.gameObject.GetComponent<Animator>();
+                //chickenAnimate = chickTest.GetComponent<Animator>();
+                
+                //chickSearch[0].GetComponent<Rigidbody>().velocity = new Vector3(0f, 1.2f, 0f); ;
+                
                 chickenAnimate.SetBool("Run", true);
                 chickenFound = true;
+                directionRay = r.direction;
+                logger.Log("Chicken FOUND");
             }
             else
             {
@@ -141,6 +174,7 @@ public class behaveChicken : MonoBehaviour
         */
     }
   
+    /*
     public void fusRohDah() 
     {
         RaycastHit[] myHits;
@@ -153,13 +187,13 @@ public class behaveChicken : MonoBehaviour
             if (hit.transform.gameObject.tag=="SpawnedObject")
             {
                 logger.Log("Conjuring the FUS ROH DAH");
-                chickSearch[0].transform.gameObject.GetComponent<Rigidbody>().AddForce
+                hit.transform.gameObject.GetComponent<Rigidbody>().AddForce
                     (r.direction * 100);
                 //hit.transform.gameObject.GetComponent<Rigidbody>().AddForce(r.direction*100);
             }
         }
     }
-
+    */
   
     /*public void Spawn()
   {
