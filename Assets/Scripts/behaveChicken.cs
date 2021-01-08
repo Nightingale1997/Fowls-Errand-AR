@@ -96,6 +96,7 @@ public class behaveChicken : MonoBehaviour
                 if (chickenAnimate != null)
                 {
                     chickenAnimate.SetBool("Run", false);
+                    chickenAnimate.SetBool("Turn", true);
 
                 }
                 //recheck the chicken to Test
@@ -110,38 +111,6 @@ public class behaveChicken : MonoBehaviour
 
     }
 
-    public void findChicken2()
-    {
-        //Vector3 screenPoint = myCam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
-        Vector3 screenPoint = new Vector3(0.5f, 0.5f, 0f);
-        RaycastHit[] myHits;
-        Ray r;
-        r = myCam.ViewportPointToRay(screenPoint);
-
-        myHits = Physics.RaycastAll(r);
-        foreach (RaycastHit hit in myHits)
-        {
- //           logger.Log("Hitting " + hit.transform.gameObject.name);
-            if (hit.transform.gameObject.tag == "SpawnedObject")
-            {
-                logger.Log("Chicken FOUND");
-                txtUI.text = "Chicken FOUND";
-
-                //hit.transform.GetComponent<Rigidbody>().velocity = new Vector3(0f, 1.2f, 0f);
-                hit.transform.Rotate(Quaternion.LookRotation(r.direction).eulerAngles);
-                logger.Log("dir RAY: " + r.direction.normalized + " Angle Euler: " + Quaternion.Euler(r.direction).eulerAngles + " Angle Look: " + Quaternion.LookRotation(r.direction).eulerAngles);
-
-                //hit.transform.GetComponent<Rigidbody>().AddForce (r.direction * 1000);
-
-            }
-            else
-            {
-                logger.Log("only " + hit.transform.gameObject.name);
-
-            }
-        }
-
-    }
     public void findChicken()
     {
         logger.Log("raycasting to find chicken");

@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class MoveChicken : MonoBehaviour
 {
-    public float chickenSpeed = 0.0005f;
+    public float chickenSpeed = 25.0f;
     public bool active = false;
     public bool old = false;
     private Animator ChickenRun;
@@ -85,24 +85,29 @@ public class MoveChicken : MonoBehaviour
         if (active)
         {
             logger.Log("before crossing");
+            float targetAngle = transform.eulerAngles.y;
+            Vector3 direction = calculateRayDir();
+            if (direction.magnitude >= 0.1f)
+            {
 
-            //fusRohDah();        
+                targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
 
+                transform.rotation = Quaternion.Euler(0f, targetAngle, 0f);
+                ChickenRun.SetBool("Run", true);
+            }
+            chickenBody.velocity = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward * chickenSpeed;
+            //chickenBody.constraints = RigidbodyConstraints.None;
+
+
+            //PAST CODE
             //Vector3 chickenMovement = new Vector3(0, 0, 2 ) * chickenSpeed * Time.deltaTime;
             //transform.Translate(chickenMovement, Space.Self);
-            Vector3 direction = calculateRayDir();
-            
-            logger.Log("RB: "+ transform.GetComponent<Rigidbody>());
-            transform.GetComponent<Rigidbody>().AddForce(direction * 100);            
-            transform.Rotate(Quaternion.LookRotation(direction).eulerAngles);
+
+            //logger.Log("RB: "+ transform.GetComponent<Rigidbody>());
+            //transform.GetComponent<Rigidbody>().AddForce(direction * 100);            
+            //transform.Rotate(Quaternion.LookRotation(direction).eulerAngles);
             //              logger.Log("dir RAY: " + calculateRayDir().normalized + " Angle: " + Quaternion.LookRotation(calculateRayDir()).eulerAngles);
-
-            //transform.Rotate(new Vector3(0, Mathf.Sin(Time.time * 5) * 0.2f, 0));            
-
-
-            //chickenBody.AddForce(chickenCam.directionRay * 10);
-
-            ChickenRun.SetBool("Walk", true);
+            //ChickenRun.SetBool("Walk", true);
             logger.Log(" crossed");
         }
         else if (!active && old)

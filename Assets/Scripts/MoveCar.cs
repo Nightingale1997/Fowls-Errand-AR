@@ -7,7 +7,7 @@ public class MoveCar : MonoBehaviour
     private Rigidbody chickenThrown;
     
     //CAR SPEED !!!!
-    public float carSpeed = 2f;
+    public float carSpeed = 1.2f;
     //float mass = 10;
     public AudioSource impactCar;
     // Start is called before the first frame update
