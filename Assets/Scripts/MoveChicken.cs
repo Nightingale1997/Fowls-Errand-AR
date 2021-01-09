@@ -21,7 +21,7 @@ public class MoveChicken : MonoBehaviour
     private Button pushChicken;
     //public GameObject txtOnScreen;
     private Text txtUI;
-
+    private Text txtScore;
     //GameObject[] chickSearch;
 
     private static ILogger logger = Debug.unityLogger;
@@ -36,7 +36,7 @@ public class MoveChicken : MonoBehaviour
         logger.Log("Cross Start");
         pushChicken = GameObject.Find("btnPushChicken").GetComponent<Button>(); //btnPushChicken.GetComponent<Button>();
         //pushChicken.onClick.AddListener(pushPressed);
-        txtUI = GameObject.Find("txtOnScreen").GetComponent<Text>();
+        txtScore = GameObject.Find("txtScoreNumber").GetComponent<Text>();
         logger.Log(" Cross-UI Successful");
 
         
@@ -99,15 +99,6 @@ public class MoveChicken : MonoBehaviour
             //chickenBody.constraints = RigidbodyConstraints.None;
 
 
-            //PAST CODE
-            //Vector3 chickenMovement = new Vector3(0, 0, 2 ) * chickenSpeed * Time.deltaTime;
-            //transform.Translate(chickenMovement, Space.Self);
-
-            //logger.Log("RB: "+ transform.GetComponent<Rigidbody>());
-            //transform.GetComponent<Rigidbody>().AddForce(direction * 100);            
-            //transform.Rotate(Quaternion.LookRotation(direction).eulerAngles);
-            //              logger.Log("dir RAY: " + calculateRayDir().normalized + " Angle: " + Quaternion.LookRotation(calculateRayDir()).eulerAngles);
-            //ChickenRun.SetBool("Walk", true);
             logger.Log(" crossed");
         }
         else if (!active && old)
@@ -138,7 +129,7 @@ public class MoveChicken : MonoBehaviour
                 ChickenSpawner chickenSpawner = road.GetComponent<ChickenSpawner>();
                 chickenSpawner.expired = true;
                 chickenSpawner.score++;                
-                txtUI.text = "CHICKEN SCORE:" + chickenSpawner.score+"";
+                txtScore.text = " "+chickenSpawner.score+"";
                 logger.Log("SCORE IS:"+ chickenSpawner.score);
             }
             

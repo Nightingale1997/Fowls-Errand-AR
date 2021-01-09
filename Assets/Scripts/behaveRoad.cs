@@ -46,22 +46,7 @@ public class behaveRoad : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //cdCount += Time.deltaTime;
-        /*
-        if (Input.touchCount == 1 && roadOn ==false)
-        {
-            //logger.Log("spawnin road...");
-            //SpawnRoad();
-            //cdCount = 0;
-            
-            //fusRohDah();
-        }
-        else
-        {
-            //roadOn = false;
-
-        }
-        */
+        
     }
 
     public void SpawnRoad()

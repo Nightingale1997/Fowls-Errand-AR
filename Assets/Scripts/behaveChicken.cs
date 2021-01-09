@@ -19,6 +19,8 @@ public class behaveChicken : MonoBehaviour
     //UI
     public GameObject txtOnScreen;
     public GameObject btnShowPushChicken;
+    public GameObject score;
+    public GameObject scoreTitle;
 
     //public GameObject btnPushChicken;
     public Vector3 directionRay;
@@ -34,7 +36,9 @@ public class behaveChicken : MonoBehaviour
 
          //set UI 
         txtUI = txtOnScreen.GetComponent<Text>();
-
+        
+        //score = GameObject.Find("txtScoreNumber");
+        
         //pushChicken = btnPushChicken.GetComponent<Button>();
         //pushChicken.onClick.AddListener(behaveRoad.);
     }
@@ -43,19 +47,6 @@ public class behaveChicken : MonoBehaviour
     void Update()
     {
 
-
-        /*
-        if (chickSearch == null || chickSearch.Length==0)
-        {
-            logger.Log("searching chicks");
-            chickSearch = GameObject.FindGameObjectsWithTag("SpawnedObject");
-            //chickSearch = GameObject.FindWithTag("SpawnedObject");
-            logger.Log("array " + chickSearch.Length);
-            if (chickSearch!=null && chickSearch.Length>0)
-            {
-                chickenAnimate = chickSearch[0].GetComponent<Animator>();
-            }            
-        }*/
         if (chicken==null)
         {
             logger.Log("no chicken");
@@ -65,6 +56,9 @@ public class behaveChicken : MonoBehaviour
         }
         else
         {
+            //Show scores
+            
+
             cdCount += Time.deltaTime;
 
             if (Input.touchCount == 1 && cdCount > cooldown)
@@ -87,6 +81,8 @@ public class behaveChicken : MonoBehaviour
                     //CHICKEN MOVE
                     //chickenmove();
                     btnShowPushChicken.SetActive(true);
+                    score.SetActive(true);
+                    scoreTitle.SetActive(true);
                 }
 
             }
@@ -100,10 +96,11 @@ public class behaveChicken : MonoBehaviour
 
                 }
                 //recheck the chicken to Test
-                if (cdCount>5)
+                if (cdCount>3)
                 {
                     chickenFound = false;
                     txtUI.text = "";
+                    btnShowPushChicken.SetActive(false);
                 }
             }
 
@@ -145,27 +142,5 @@ public class behaveChicken : MonoBehaviour
             }
         }
     }
-        /*
-        public void fusRohDah() 
-        {
-            RaycastHit[] myHits;
-            Ray r;
-            r = myCam.ScreenPointToRay(Input.GetTouch(0).position);
-            myHits = Physics.RaycastAll(r);
-            foreach (RaycastHit hit in myHits)
-            {
-                logger.Log("Detected " + hit.transform.gameObject.name);
-                if (hit.transform.gameObject.tag=="SpawnedObject")
-                {
-                    logger.Log("Conjuring the FUS ROH DAH");
-                    hit.transform.gameObject.GetComponent<Rigidbody>().AddForce
-                        (r.direction * 100);
-                    //hit.transform.gameObject.GetComponent<Rigidbody>().AddForce(r.direction*100);
-                }
-            }
-        }
-        */
-
-    
-
+        
     }
