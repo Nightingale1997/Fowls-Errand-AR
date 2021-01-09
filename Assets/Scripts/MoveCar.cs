@@ -20,7 +20,7 @@ public class MoveCar : MonoBehaviour
     void Update()
     {
         Vector3 carMovement = new Vector3(10, 0, 0) * carSpeed * Time.deltaTime;
-        transform.Translate(carMovement, Space.Self);
+        transform.Translate(carMovement * 0.15f, Space.Self);
     }
 
     void OnTriggerEnter(Collider other)
