@@ -89,17 +89,17 @@ public class behaveChicken : MonoBehaviour
             else
             {
                 //logger.Log("Chicken to Idle");
-                if (chickenAnimate != null)
+                if (chickenFound)
                 {
                     chickenAnimate.SetBool("Run", false);
-                    chickenAnimate.SetBool("Turn", true);
+                    chickenAnimate.SetBool("Turn Head", true);
 
                 }
                 //recheck the chicken to Test
                 if (cdCount>3)
                 {
                     chickenFound = false;
-                    txtUI.text = "";
+                    txtOnScreen.SetActive(false);
                     btnShowPushChicken.SetActive(false);
                 }
             }
@@ -126,14 +126,19 @@ public class behaveChicken : MonoBehaviour
         {
             if (hit.transform.gameObject.tag == "SpawnedObject")
             {
-                logger.Log("Chicken FOUND");
-                txtUI.text = "Chicken FOUND";
+                if(chickenFound==false)
+                { 
+                    //Show Chicken FOUND only the FIRST TIME
+                    logger.Log("Chicken FOUND");
+                    txtUI.text = "Chicken FOUND";
+                }
 
-                hit.transform.GetComponent<Rigidbody>().velocity = new Vector3(0f, 1.2f, 0f);
-                chickenAnimate = hit.transform.GetComponent<Animator>();
-                chickenAnimate.SetBool("Run", true);
+                    hit.transform.GetComponent<Rigidbody>().velocity = new Vector3(0f, 1.2f, 0f);
+                    chickenAnimate = hit.transform.GetComponent<Animator>();
+                    chickenAnimate.SetBool("Run", true);
 
-                chickenFound = true;
+                    chickenFound = true;
+                
             }
             else
             {

@@ -77,7 +77,7 @@ public class behaveRoad : MonoBehaviour
 
                 road.transform.localScale = new Vector3(0.15f, 0.15f, 0.15f);
                 road.transform.eulerAngles = new Vector3(0, 180, 0);
-        //        road.tag = "SpawnedObject";
+
                 logger.Log("Spawned at" + road.transform.position.x +
                     ", " + road.transform.position.y + ", " +
                     road.transform.position.z);
@@ -89,6 +89,7 @@ public class behaveRoad : MonoBehaviour
                 {
                     anchorPoint = anchorCheck.AttachAnchor(plane, nearest.pose);
                     logger.Log("Added an anchor to a plane " + nearest);
+
                 }
                 else
                 {
@@ -96,16 +97,20 @@ public class behaveRoad : MonoBehaviour
                     logger.Log("Added another anchor " + nearest);
                 }
                 road.transform.parent = anchorPoint.transform;
+                
+                
                 roadOn = true;
-            }
-            Destroy(btnSetMap.gameObject);
-            txtFindChicken.SetActive(true);
+                Destroy(btnSetMap.gameObject);
+                txtFindChicken.SetActive(true);
 
-        }
-        else
-        {
-            logger.Log("road NOT spawned");
-        }
+            }
+            else
+            {
+                // no hit on plane
+            }           
+            
+
+        }      
 
     }
 }

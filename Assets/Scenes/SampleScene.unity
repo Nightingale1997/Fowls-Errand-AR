@@ -999,7 +999,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 8, y: -331}
+  m_AnchoredPosition: {x: 8, y: -350}
   m_SizeDelta: {x: 160, y: 160}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1287166489
@@ -1184,15 +1184,15 @@ RectTransform:
   m_GameObject: {fileID: 1344047736}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 10, y: 10, z: 0}
+  m_LocalScale: {x: 8, y: 8, z: 0}
   m_Children: []
   m_Father: {fileID: 1287166488}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -7.3999634, y: -109.29999}
-  m_SizeDelta: {x: 23, y: 38.6}
+  m_AnchoredPosition: {x: -7.3999634, y: -156}
+  m_SizeDelta: {x: 61.7, y: 38.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1344047738
 MonoBehaviour:
@@ -1226,8 +1226,8 @@ MonoBehaviour:
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
-    m_LineSpacing: 1
-  m_Text: START
+    m_LineSpacing: 0.7
+  m_Text: FIND A PLANE TO START
 --- !u!222 &1344047739
 CanvasRenderer:
   m_ObjectHideFlags: 0

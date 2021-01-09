@@ -49,13 +49,11 @@ public class MoveChicken : MonoBehaviour
         Vector3 screenPoint = new Vector3(0.5f, 0.5f, 0f);
         RaycastHit hit2;
         Ray r;
-        logger.Log("R ray succ");
-
+  
         myCam = GameObject.Find("AR Camera").gameObject.GetComponent<Camera>();
         rays = GameObject.FindObjectOfType<ARRaycastManager>();
 
         r = myCam.ViewportPointToRay(screenPoint);
-        logger.Log("R Cam succ");
         logger.Log("R: " + r);
 
         Physics.Raycast(r, out hit2);
@@ -77,7 +75,7 @@ public class MoveChicken : MonoBehaviour
                 logger.Log("about to Cross");                
                 active = true;
                 old = true;
-                txtUI.text = "TO CROSSING";
+                //txtUI.text = "TO CROSSING";
             }
         }
         
@@ -128,7 +126,8 @@ public class MoveChicken : MonoBehaviour
                 //logger.Log("destroyed");
                 ChickenSpawner chickenSpawner = road.GetComponent<ChickenSpawner>();
                 chickenSpawner.expired = true;
-                chickenSpawner.score++;                
+                chickenSpawner.score++;
+                txtScore = GameObject.Find("txtScoreNumber").GetComponent<Text>();
                 txtScore.text = " "+chickenSpawner.score+"";
                 logger.Log("SCORE IS:"+ chickenSpawner.score);
             }
@@ -150,11 +149,14 @@ public class MoveChicken : MonoBehaviour
             if (active)
             {
                 ChickenSpawner chickenSpawner = road.GetComponent<ChickenSpawner>();
+                chickenSpawner.score = 0;
+                txtScore = GameObject.Find("txtScoreNumber").GetComponent<Text>();
+                txtScore.text = " " + chickenSpawner.score + "";
                 chickenSpawner.expired = true;
             }
             
 
-            ChickenRun.SetBool("Walk", false);
+            ChickenRun.SetBool("Turn Head", false);
             ChickenRun.SetBool("Run", true);
             active = false;
             chickenBody.useGravity = true;
@@ -166,35 +168,10 @@ public class MoveChicken : MonoBehaviour
             // This will push back the player
             GetComponent<Rigidbody>().AddForce(dir * force);
 
-
+            
         }
 
 
-
-        /*
-        public void fusRohDah()
-        {
-            RaycastHit[] myHits;
-            Ray r;
-            r = myCam.ScreenPointToRay(Input.GetTouch(0).position);
-            myHits = Physics.RaycastAll(r);
-            foreach (RaycastHit hit in myHits)
-            {
-                //logger.Log("Detected " + hit.transform.gameObject.name);
-                if (hit.transform.gameObject.tag == "SpawnedObject")
-                {
-                    logger.Log("Conjuring the FUS ROH DAH");
-                    Vector3 chickenMovement = new Vector3(0, 0, r.direction.x) * chickenSpeed * Time.deltaTime;
-                    transform.Translate(chickenMovement, Space.Self);
-                    transform.Rotate(new Vector3(0, Mathf.Sin(Time.time * 5) * 0.2f, 0));
-                    ChickenRun.SetBool("Walk", true);
-
-                    //chickSearch[0].transform.gameObject.GetComponent<Rigidbody>().AddForce(r.direction * 100);
-                    //hit.transform.gameObject.GetComponent<Rigidbody>().AddForce(r.direction*100);
-                }
-            }
-        }
-        */
 
     }
 }
