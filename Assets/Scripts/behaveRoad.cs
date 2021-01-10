@@ -18,6 +18,7 @@ public class behaveRoad : MonoBehaviour
     private ARPlaneManager planeCheck;
     private Animator chickenAnimate;
     private bool roadOn = false;
+    private bool signFound = false;
 
 
     //Set UI
@@ -40,13 +41,14 @@ public class behaveRoad : MonoBehaviour
 
         setMap = btnSetMap.GetComponent<Button>();
         setMap.onClick.AddListener(SpawnRoad);
-
+        btnSetMap.SetActive(false);
+        txtFindChicken.GetComponent<Text>().text = "Find a Stop Sign!";
+        txtFindChicken.SetActive(true);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
     }
 
     public void SpawnRoad()
@@ -101,7 +103,9 @@ public class behaveRoad : MonoBehaviour
                 
                 roadOn = true;
                 Destroy(btnSetMap.gameObject);
+                txtFindChicken.GetComponent<Text>().text = "Find the Chicken!";
                 txtFindChicken.SetActive(true);
+                
 
             }
             else
