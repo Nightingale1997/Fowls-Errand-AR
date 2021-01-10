@@ -23,7 +23,7 @@ public class ChickenSpawner : MonoBehaviour
         if (expired)
         {
             expired = false;
-            chickenClone = Instantiate(chicken, transform.position + (transform.up * 2), transform.rotation) as GameObject;
+            chickenClone = Instantiate(chicken, transform.position + (transform.up * 0.9f), transform.rotation) as GameObject;
             road = GameObject.FindWithTag("Road");
             chickenClone.transform.localScale *= 0.07f;
             chickenClone.transform.Rotate(new Vector3(0, -90, 0));
