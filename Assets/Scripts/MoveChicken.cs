@@ -66,29 +66,31 @@ public class MoveChicken : MonoBehaviour
     }
     void Update()
     {
-        
-        
+
+
         if (Input.touchCount == 2)
-        {            
+        {
             if (!old)
             {
-                logger.Log("about to Cross");                
+                logger.Log("about to Cross");
                 active = true;
                 old = true;
                 //txtUI.text = "TO CROSSING";
             }
         }
-        
+        float targetAngle = transform.eulerAngles.y;
+        Vector3 direction = calculateRayDir();
+        targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
 
         if (active)
         {
             logger.Log("before crossing");
-            float targetAngle = transform.eulerAngles.y;
-            Vector3 direction = calculateRayDir();
+            
+
             if (direction.magnitude >= 0.1f)
             {
 
-                targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+
 
                 transform.rotation = Quaternion.Euler(0f, targetAngle, 0f);
                 ChickenRun.SetBool("Run", true);
@@ -108,9 +110,11 @@ public class MoveChicken : MonoBehaviour
                 logger.Log("chicken destroyed");
             }
         }
-        
+        else if (!active && !old)
+        {
+            transform.rotation = Quaternion.Euler(0f, targetAngle, 0f);
+        }
     }
-
 
 
     void OnTriggerEnter(Collider other)
