@@ -26,6 +26,7 @@ public class MoveChicken : MonoBehaviour
     private GameObject scoreObj;
     private Text txtScore;
     //GameObject[] chickSearch;
+    //public AudioSource ChickenHit;
 
     private static ILogger logger = Debug.unityLogger;
     // Start is called before the first frame update
@@ -46,7 +47,7 @@ public class MoveChicken : MonoBehaviour
         txtScore = cnvs.transform.Find("txtScoreNumber").GetComponent<Text>();
         logger.Log(" Cross-UI Successful" + scoreObj);
 
-
+        //ChickenHit = GameObject.Find("Hit").GetComponent<AudioSource>();
     }
 
 
@@ -121,6 +122,7 @@ public class MoveChicken : MonoBehaviour
         else if (!active && !old)
         {
             transform.rotation = Quaternion.Euler(0f, targetAngle, 0f);
+            ChickenRun.SetBool("Turn Head", true);
         }
     }
 
@@ -129,7 +131,8 @@ public class MoveChicken : MonoBehaviour
     {
         logger.Log("push started");
         if (Input.touchCount == 1)
-        {
+        {            
+            ChickenRun.SetBool("Turn Head", false);
             if (!old)
             {
                 logger.Log("about to Cross");
