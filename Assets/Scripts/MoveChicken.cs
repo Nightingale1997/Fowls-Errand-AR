@@ -18,10 +18,12 @@ public class MoveChicken : MonoBehaviour
     public Camera myCam;
     private ARRaycastManager rays;
     //UI
-    //public GameObject btnPushChicken;
+    private GameObject btnPushChicken;
     private Button pushChicken;
+    private GameObject cnvs;
+
     //public GameObject txtOnScreen;
-    private Text txtUI;
+    private GameObject scoreObj;
     private Text txtScore;
     //GameObject[] chickSearch;
 
@@ -33,15 +35,18 @@ public class MoveChicken : MonoBehaviour
         ChickenRun = gameObject.GetComponent<Animator>();
         chickenBody = gameObject.GetComponent<Rigidbody>();
 
-        
-        logger.Log("Cross Start");
-        pushChicken = GameObject.Find("btnPushChicken").GetComponent<Button>(); //btnPushChicken.GetComponent<Button>();
-        //pushChicken.onClick.AddListener(pushPressed);
-        txtScore = GameObject.Find("txtScoreNumber").GetComponent<Text>();
-        logger.Log(" Cross-UI Successful");
+        cnvs = GameObject.Find("Canvas");
+        //pushChicken = btnpushChicken.GetComponent<Button>();
+        //btnPushChicken = GameObject.Find("btnPushChicken");
+        logger.Log("cross obj check" + btnPushChicken);
+        pushChicken = cnvs.transform.Find("btnPushChicken").GetComponent<Button>();
+        pushChicken.onClick.AddListener(pushChick);
+        logger.Log("start listener ok");
+        //scoreObj = GameObject.Find("txtScoreNumber");
+        txtScore = cnvs.transform.Find("txtScoreNumber").GetComponent<Text>();
+        logger.Log(" Cross-UI Successful" + scoreObj);
 
-        
-        
+
     }
 
 
@@ -68,7 +73,7 @@ public class MoveChicken : MonoBehaviour
     void Update()
     {
 
-
+        /*
         if (Input.touchCount == 2)
         {
             if (!old)
@@ -78,7 +83,7 @@ public class MoveChicken : MonoBehaviour
                 old = true;
                 //txtUI.text = "TO CROSSING";
             }
-        }
+        }*/
         float targetAngle = transform.eulerAngles.y;
         Vector3 direction = calculateRayDir();
         targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
@@ -126,8 +131,23 @@ public class MoveChicken : MonoBehaviour
     }
 
 
-    void OnTriggerEnter(Collider other)
+    public void pushChick()
     {
+        logger.Log("push started");
+        if (Input.touchCount == 1)
+        {
+            if (!old)
+            {
+                logger.Log("about to Cross");
+                active = true;
+                old = true;
+                //txtUI.text = "TO CROSSING";
+            }
+        }
+    }
+
+        void OnTriggerEnter(Collider other)
+        {
 
         logger.Log("into collider");
         if (other.gameObject.tag == "Despawner")
