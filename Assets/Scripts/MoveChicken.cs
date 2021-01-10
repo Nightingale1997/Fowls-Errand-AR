@@ -7,13 +7,13 @@ using UnityEngine.UI;
 
 public class MoveChicken : MonoBehaviour
 {
-    public float chickenSpeed = 25.0f;
+    public float chickenSpeed = 1.0f;
     public bool active = false;
     public bool old = false;
     private Animator ChickenRun;
     private Rigidbody chickenBody;
     private GameObject road;
-    public float timer = 2f;
+    public float timer = 3f;
     public float runTimer = 6f;
     public Camera myCam;
     private ARRaycastManager rays;
@@ -91,17 +91,11 @@ public class MoveChicken : MonoBehaviour
         if (active)
         {
             logger.Log("before crossing");
-            
-
-            if (direction.magnitude >= 0.1f)
-            {
-
-
-
-                transform.rotation = Quaternion.Euler(0f, targetAngle, 0f);
-                ChickenRun.SetBool("Run", true);
-            }
-            chickenBody.velocity = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward * chickenSpeed;
+       
+            ChickenRun.SetBool("Run", true);
+            Vector3 chickenMovement = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+            //chickenBody.velocity = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward * chickenSpeed;
+            transform.Translate(chickenMovement * 0.05f, Space.World);
             //chickenBody.constraints = RigidbodyConstraints.None;
 
             timer -= Time.deltaTime;
@@ -173,7 +167,7 @@ public class MoveChicken : MonoBehaviour
      
 
         // force is how forcefully we will push the player away from the enemy.
-        float force = 1000;
+        float force = 250;
 
         // If the object we hit is the enemy
         if (c.gameObject.tag == "Car")
