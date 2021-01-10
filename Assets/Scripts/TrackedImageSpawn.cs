@@ -18,7 +18,7 @@ public class TrackedImageSpawn : MonoBehaviour
         btnSetMap = Canvas.transform.Find("btnSetRoad").gameObject;
         txtFindChicken = GameObject.Find("txtOnScreen");
 
-        
+        txtFindChicken.SetActive(false);
         btnSetMap.SetActive(true);
     }
 

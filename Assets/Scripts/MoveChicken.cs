@@ -14,6 +14,7 @@ public class MoveChicken : MonoBehaviour
     private Rigidbody chickenBody;
     private GameObject road;
     public float timer = 2f;
+    public float runTimer = 6f;
     public Camera myCam;
     private ARRaycastManager rays;
     //UI
@@ -98,7 +99,15 @@ public class MoveChicken : MonoBehaviour
             chickenBody.velocity = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward * chickenSpeed;
             //chickenBody.constraints = RigidbodyConstraints.None;
 
-
+            timer -= Time.deltaTime;
+            if (timer <= 0f)
+            {
+                Destroy(transform.root.gameObject);
+                logger.Log("chicken destroyed");
+                active = false;
+                ChickenSpawner chickenSpawner = road.GetComponent<ChickenSpawner>();
+                chickenSpawner.expired = true;
+            }
             logger.Log(" crossed");
         }
         else if (!active && old)
